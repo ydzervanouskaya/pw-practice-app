@@ -38,3 +38,7 @@ test('User-visible Locators', async ({page}) =>{
   await page.getByText('Inline form').click()
   await page.getByTestId('updatedByMe').click()
 })
+
+test('Locating child elements', async ({page}) => {
+  await page.locator('nb-card nb-radio :text-is("Option 2")').click()
+})
