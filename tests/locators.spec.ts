@@ -1,4 +1,4 @@
-import {test} from '@playwright/test';
+import {test, expect} from '@playwright/test';
 
 test.beforeEach(async({page})=> {
     await page.goto('http://localhost:4200/')
@@ -41,4 +41,30 @@ test('User-visible Locators', async ({page}) =>{
 
 test('Locating child elements', async ({page}) => {
   await page.locator('nb-card nb-radio :text-is("Option 2")').click()
+})
+
+test('Locating Parent Element', async({page}) => {
+  // await page.locator('nb-card', {hasText: "Using The Grid"})
+  // .getByRole('textbox', {name: "Email"}).click()
+
+  // await page.locator('nb-card', {has: page.locator("#inputEmail1")})
+  // .getByRole('textbox', {name: "Email"}).click()
+
+  await page.locator('nb-card').filter({hasText: "Basic Form"})
+  .getByRole('textbox', {name: "Email"}).click()
+})
+
+test('Reusing the locators', async ({page})=> {
+
+  const basicForm = page.locator('nb-card').filter({hasText: 'Basic Form'});
+  const emailField = basicForm.getByRole('textbox', {name: "Email"});
+  const passwordField = basicForm.getByRole('textbox', {name: 'Password'});
+
+  await emailField.fill('ymail@email.com')
+  await passwordField.fill('1234567')
+  await basicForm.locator('nb-checkbox').click()
+  await basicForm.getByRole('button').click()
+
+  await expect(emailField).toHaveValue('ymail@email.com');
+  await expect(passwordField).toHaveValue('1234567');
 })
