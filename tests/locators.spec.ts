@@ -68,3 +68,32 @@ test('Reusing the locators', async ({page})=> {
   await expect(emailField).toHaveValue('ymail@email.com');
   await expect(passwordField).toHaveValue('1234567');
 })
+
+test('Extracting text', async({page})=>{
+    // sigle text value
+  // const horizontalForm = page.locator('nb-card').filter({hasText: 'Horizontal form'});
+  // const signInButtonText = await horizontalForm.getByRole('button').textContent();
+  
+  // expect(signInButtonText).toEqual('Sign in');
+
+  // all text value
+  //  const allRadioButtonsText =  await page.locator('nb-radio').allTextContents();
+
+  //  expect(allRadioButtonsText).toContain('Disabled Option');
+
+   // input value
+  //  const blockForm = page.locator('nb-card').filter({hasText: 'Block form'});
+  //  const firstNameInBlockForm = blockForm.getByRole('textbox', {name: 'First Name'});
+  //  await firstNameInBlockForm.fill('Yuliya');
+  //  const firstNameValue = await firstNameInBlockForm.inputValue();
+
+  //  expect(firstNameValue).toEqual('Yuliya');
+
+   //attribute value
+   const formWLabels =  page.locator('nb-card').filter({hasText: 'Form without labels'});
+   const recipientPlaceholder = formWLabels.getByPlaceholder('Recipients');
+   const recipientAttribute = await recipientPlaceholder.getAttribute('placeholder');
+
+   expect (recipientAttribute).toEqual('Recipients')
+
+})
