@@ -57,6 +57,19 @@ test.describe("Radio Buttons Lesson", () => {
      
     expect(await usingTheGridForm.getByLabel('Option 1').isChecked()).toBeFalsy();
 
-     
-  });
+     });
+
+     test('Best code to verify that radio btn was unchecked', async ({page}) => {
+        const usingTheGridForm = page.locator("nb-card", {
+            hasText: "Using the Grid",
+          });
+    
+        await usingTheGridForm.getByLabel('Option 1').check({force: true});
+        await expect(usingTheGridForm.getByLabel('Option 1')).toBeChecked();
+
+        await usingTheGridForm.getByLabel('Option 2').check({force: true});
+        expect(await usingTheGridForm.getByLabel('Option 1').isChecked()).toBeFalsy();
+        await expect(usingTheGridForm.getByLabel('Option 2')).toBeChecked();
+
+     })
 });
