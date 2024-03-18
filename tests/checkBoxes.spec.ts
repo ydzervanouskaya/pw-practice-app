@@ -38,5 +38,20 @@ test.describe("Checkboxes Lesson", () => {
     expect(await page.getByRole('checkbox', {name: 'Prevent arising of duplicate toast'}).isChecked()).toBeFalsy();
     expect(await page.getByRole('checkbox', {name: 'Show toast with icon'}).isChecked()).toBeFalsy();
   })
+
+  test('Verify all textboxes are selected using the loop', async({page})=>{
+    const allBoxes = page.getByRole('textbox');
+    for(const box of await allBoxes.all()){
+        await box.check({force : true})
+        expect(await box.isChecked()).toBeTruthy();
+    }
+  })
+  test('Verify that all textboxes are unselected using a loop', async({page})=>{
+    const allTextBoxes = page.getByRole('textbox');
+    for(const singleBox of await allTextBoxes.all()){
+        await singleBox.uncheck({force :true});
+        expect(await singleBox.isChecked()).toBeFalsy();
+    }
+  })
   })
 
